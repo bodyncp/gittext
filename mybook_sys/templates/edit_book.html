@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block temp %}
+    <tr>
+        <th>id</th>
+        <th>title</th>
+        <th>price</th>
+    </tr>
+    {% for i in book_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.title }}</td>
+            <td>{{ i.price }}</td>
+            <td>
+                <button class="btn btn-danger btn_del" value="{{ i.id }}">删除</button>
+                <a href="/edit_book_in/?edit={{ i.id }}"><button class="btn btn-info">编辑</button></a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+<script>
+    {% block js %}
+        console.log({{ i.title }});
+        $('.btn_del').click(function () {
+            $.ajaxSetup({
+                 data:{csrfmiddlewaretoken:"{{csrf_token}}"}
+             });
+
+            var del_data = $(this).val();
+            $.ajax({
+                url:"/del/del_book/",
+                type:"POST",
+                data:{"del":del_data},
+                success:function (data) {
+                    location.reload(true)
+                }
+            })
+        });
+    {% endblock %}
+</script>
+

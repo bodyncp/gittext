@@ -1,0 +1,28 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist\css\bootstrap.css' %} ">
+    <script rel="stylesheet" src="{% static 'jquery-3.2.1.js' %}"></script>
+</head>
+<body>
+    <div class="container" style="text-align: center">
+        <h1>添加菜单</h1>
+        {% block add_parrent %}
+        <form action="/edit_book_in/" method="post" style="margin-top: 50px">
+            {% csrf_token %}
+            {% for i in edit_data %}
+                <input style="margin: 10px 0 10px 0" type="text" class="form-control" name ="id" value={{ i.id }}>
+                <input style="margin: 10px 0 10px 0" type="text" class="form-control" name ="title" value={{ i.title }}>
+                <input style="margin: 10px 0 10px 0" type="text" class="form-control" name ="price" value={{ i.price }}>
+
+            {% endfor %}
+            <input style="position: fixed;right: 205px;margin-top: 5px" type="submit" class="btn btn-primary">
+{#            <a href="/index/"><input style="position: fixed;right: 205px;margin-top: 5px" type="submit" class="btn btn-primary" value="取消"></a>#}
+        </form>
+        {% endblock %}
+    </div>
+</body>
+</html>

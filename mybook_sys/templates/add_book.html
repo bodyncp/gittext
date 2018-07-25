@@ -1,0 +1,27 @@
+{% extends 'add_base.html' %}
+
+{% block add_parrent %}
+    <h1>{{ error_msg }}</h1>
+    <form action="/add/add_book/" method="post" style="margin-top: 50px">
+        {% csrf_token %}
+
+            <input style="margin: 10px 0 10px 0" type="text" class="form-control" name ="title" value={{ msg1 }}>
+            <input style="margin: 10px 0 10px 0" type="text" class="form-control" name ="price" value={{ msg2 }}>
+            <select style="margin: 10px 0 10px 0" class="form-control" name="publish_id">
+                {% for i in show_pub_data %}
+                        <option>{{ i.pname }}</option>
+                {% endfor %}
+            </select>
+            {% for i in show_aut_data %}
+                <label class="checkbox-inline" for="inlineCheckbox{{ i.id }}">
+                <input value={{ i.aname }} type="checkbox" id="inlineCheckbox{{ i.id }}" name={{ i.aname }} >{{ i.aname }}
+                </label>
+            {% endfor %}
+        <p style="color: red;font-size: 10px">{{ msg3 }}</p>
+
+        <input style="position: fixed;right: 265px;margin-top: 5px" type="submit" class="btn btn-primary">
+    </form>
+    <a href="/index/"><input style="position: fixed;right: 205px;margin-top: 5px" type="submit" class="btn btn-primary" value="取消"></a>
+{% endblock %}
+
+

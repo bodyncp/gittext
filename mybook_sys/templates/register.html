@@ -1,0 +1,38 @@
+{% load staticfiles %}
+<html>
+	<head>
+        <meta charset="UTF-8">
+        <script rel="stylesheet" src="{% static 'jquery-3.2.1.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist\css\bootstrap.css' %}">
+        <style>
+            #header_first{
+                background-color: blue;
+                text-align: center;
+            }
+            .stp{
+                margin-left: 300px;
+                margin-bottom: 0;
+                padding: 0;
+            }
+            .span_class{
+                margin-left: 300px;
+            }
+        </style>
+	</head>
+	<body>
+        <div id="header_first">
+            <h1>欢迎来到注册界面</h1>
+        </div>
+        <div id="header" class="container">
+            <form action="/register/" method="post">
+                {% csrf_token %}
+                <p class="stp ">用户名：</p><span class="span_class">{{ form_obj.user }}</span>
+                <p class="stp">密码：</p><span class="span_class">{{ form_obj.pwd }}</span>
+                <p class="stp">确认密码：</p><span class="span_class">{{ form_obj.agent_pwd }}</span>
+                <p class="stp">邮箱：</p><span class="span_class">{{ form_obj.email }}</span>
+                <p class="stp"><input style="margin-top: 10px" type="submit" class="btn btn-success"></p>
+                <p style="color: red;font-size: 10px;width: 200px;margin-left: 300px" >{{ error_msg }}</p>
+            </form>
+        </div>
+	</body>
+</html>

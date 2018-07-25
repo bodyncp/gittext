@@ -1,0 +1,172 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理系统</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7-dist\css\bootstrap.css' %}">
+    <script rel="stylesheet" src="{% static 'jquery-3.2.1.js' %}"></script>
+</head>
+<style>
+        .header{
+            width: 100%;
+            height: 58px;
+            background-color: #333;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        .left{
+            width: 350px;
+            position: fixed;
+            top: 58px;
+            bottom: 0;
+            left: 0;
+            background-color: silver;
+        }
+        .right{
+            position: fixed;
+            top: 58px;
+            left: 350px;
+            right: 0;
+            bottom: 0;
+            overflow: auto;
+        }
+    #header_p1{
+        width: 165px;
+        font-size: 20px;
+        color: white;
+        margin: 15px 800px 15px 112.5px;
+        float: left;
+    }
+    #header_p2{
+        width: 20px;
+        font-size: 20px;
+        color: white;
+        margin: 15px 1px 15px 112.5px;
+        float: left;
+    }
+    #header_p3{
+        width: 50px;
+        font-size: 20px;
+        color: white;
+        margin: 15px 20px 15px 10px;
+        float: left;
+    }
+    #header_p4{
+        width: 50px;
+        font-size: 20px;
+        color: white;
+        margin: 15px 10px 15px 35px;
+        float: left;
+    }
+    #header_p4 a{
+        text-decoration: none;
+        color: white;
+    }
+    .disable{
+        display: none;
+    }
+    .span_cursor{
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <p id="header_p1">B班图书管理系统</p>
+        <p id="header_p2" class="glyphicon glyphicon-user" aria-hidden="true"></p>
+        <p id="header_p3">{{ user_msg }}</p>
+        <p id="header_p4"><a href="/logout/">注销</a></p>
+    </div>
+    <div class="content">
+        <div class="left">
+            <ul>
+                <li id="book_list" style="color: blue">
+                    <span class="span_cursor">图书列表</span>
+                    {% for i in book_list %}
+                        <p style="margin: 5px 0 5px 20px;" class="disable cour">{{ i.1 }}</p>
+                    {% endfor %}
+                        <p style="margin: 5px 0 5px 20px;" class="disable cour"><a href="/edit/">编辑图书</a></p>
+                </li>
+                <li id="publish_list" style="color: blue">
+                    <span class="span_cursor">出版社列表</span>
+                    {% for i in publish_list %}
+                        <p style="margin: 5px 0 5px 20px;" class="disable cour"><a href="/edit_publish/?name={{ i.pname }}">{{ i.pname }}</a><a class="del_list" style="margin-left: 10px" href="/del_publish_list/?name={{ i.pname }}">非关联删除</a></p>
+                    {% endfor %}
+                </li>
+                <li id="author_list" style="color: blue">
+                    <span class="span_cursor">作者列表</span>
+                    {% for i in author_list %}
+                        <p style="margin: 5px 0 5px 20px;" class="disable cour"><a href="/edit_author/?name={{ i.aname }}">{{ i.aname }}</a><a class="del_list" style="margin-left: 10px" href="/del_author_list/?name={{ i.aname }}">非关联删除</a></p>
+                    {% endfor %}
+                </li>
+                <li><a style="text-decoration: none;color: blue" href="/add/add_book/">添加书籍</a></li>
+                <li><a style="text-decoration: none;color: blue" href="/add/add_publish/">添加出版社</a></li>
+                <li><a style="text-decoration: none;color: blue" href="/add/add_author">添加作者</a></li>
+                <li><a style="text-decoration: none;color: blue" href="/index/">回到首页</a></li>
+            </ul>
+        </div>
+
+        <div class="right">
+            <table class="table table-hover">
+            {% block temp %}
+                <tr>
+                    <th>id</th>
+                    <th>title</th>
+                    <th>price</th>
+                    <th>publish</th>
+                    <th>author</th>
+                </tr>
+
+                {% for i in book_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ i.1 }}</td>
+                        <td>{{ i.2 }}</td>
+                        <td>{{ i.3 }}</td>
+                        <td>{{ i.4 }}</td>
+{#                        <td>#}
+{#                            <button class="btn btn-danger" value="{{ i.0 }}">删除</button>#}
+{#                            <a href="/edit/?edit={{ i.0 }}"><button class="btn btn-info">编辑</button></a>#}
+{#                        </td>#}
+                    </tr>
+                {% endfor %}
+            {% endblock %}
+
+            </table>
+        </div>
+    </div>
+</body>
+<script>
+    function work(name) {
+        $(name).click(function () {
+            $(this).find('p').toggle()
+        })
+    }
+    work('#book_list');
+    work('#publish_list');
+    work('#author_list');
+    work('#publish');
+
+    {% block js %}
+        $('.btn_del').click(function () {
+            $.ajaxSetup({
+                 data:{csrfmiddlewaretoken:"{{csrf_token}}"}
+             });
+
+            var del_data = $(this).val();
+            $.ajax({
+                url:"/del/del_book/",
+                type:"POST",
+                data:{"del":del_data},
+                success:function (data) {
+                    location.reload(true)
+                }
+            })
+        });
+
+    {% endblock %}
+
+</script>
+</html>

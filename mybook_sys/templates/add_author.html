@@ -1,0 +1,19 @@
+{% extends 'add_base.html' %}
+
+{% block add_parrent %}
+    <form action="/add/add_author/" method="post" style="margin-top: 50px">
+        {% csrf_token %}
+
+            <input style="margin: 10px 0 10px 0" type="text" class="form-control" name ="aname" value={{ msg1 }}>
+
+            {% for i in show_aut_data %}
+
+            {% endfor %}
+        <p style="color: red;font-size: 10px">{{ msg3 }}</p>
+        <input style="position: fixed;right: 265px;margin-top: 5px" type="submit" class="btn btn-primary">
+
+    </form>
+
+    <a href="/index/"><input style="position: fixed;right: 205px;margin-top: 5px" type="submit" class="btn btn-primary" value="取消"></a>
+
+{% endblock %}

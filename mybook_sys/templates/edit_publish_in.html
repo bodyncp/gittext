@@ -1,0 +1,16 @@
+{% extends 'edit_base.html' %}
+
+{% block edit_parrent %}
+    <form action="/edit_publish_in/" method="post" style="margin-top: 50px">
+        {% csrf_token %}
+        {% for i in edit_data %}
+            <input style="margin: 10px 0 10px 0" type="text" class="form-control" name ="id" value={{ i.id }} readonly>
+            <input style="margin: 10px 0 10px 0" type="text" class="form-control" name ="pname" value={{ i.pname }}>
+            <input style="margin: 10px 0 10px 0" type="text" class="form-control" name ="addr" value={{ i.addr }}>
+
+        {% endfor %}
+        <input style="position: fixed;right: 260px;" type="submit" class="btn btn-primary">
+
+    </form>
+    <a href="/index/"><input style="position: fixed;right: 205px;" type="submit" class="btn btn-primary" value="取消"></a>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block temp %}
+    <tr>
+        <th>id</th>
+        <th>title</th>
+        <th>price</th>
+    </tr>
+    {% for i in book_list_new %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.title}}</td>
+            <td>{{ i.price }}</td>
+            <td>
+                <button class="btn btn-danger btn_del" value="{{ i.id }}">删除</button>
+                <a href="/edit_author_in/?edit={{ i.title }}"><button class="btn btn-info btn_edit">编辑</button></a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+<script>
+    {% block js %}
+        $('.btn_del').click(function () {
+        console.log(1);
+        var del_data = $(this).val();
+        $.ajax({
+            url:"/del/del_author/",
+            type:"POST",
+            data:{"del":del_data},
+            success:function (data) {
+                window.location.href='/index/'
+            }
+        })
+        });
+    {% endblock %}
+</script>

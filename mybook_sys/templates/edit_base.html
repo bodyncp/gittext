@@ -1,0 +1,41 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist\css\bootstrap.css' %} ">
+</head>
+<body>
+    <div class="container" style="text-align: center">
+        <h1>编辑菜单</h1>
+        {% block edit_parrent %}
+        <form action="/edit_book_in/" method="post" style="margin-top: 50px">
+            {% csrf_token %}
+            {% for i in edit_data %}
+                <input style="margin: 10px 0 10px 0" type="text" class="form-control" name ="id" value={{ i.id }} readonly>
+                <input style="margin: 10px 0 10px 0" type="text" class="form-control" name ="title" value={{ i.title }}>
+                <input style="margin: 10px 0 10px 0" type="text" class="form-control" name ="price" value={{ i.price }}>
+                <input style="margin: 10px 0 10px 0" type="text" class="form-control" name ="publish_id" value={{ i.publish_id }} readonly>
+                <select style="margin: 10px 0 10px 0" class="form-control" name="publish_name">
+                    {% for i in publish_list %}
+                            <option>{{ i.pname }}</option>
+                    {% endfor %}
+                </select>
+
+                {% for i in show_aut_data %}
+                    <label class="checkbox-inline" for="inlineCheckbox{{ i.id }}">
+                    <input value={{ i.aname }} type="checkbox" id="inlineCheckbox{{ i.id }}" name={{ i.aname }} >{{ i.aname }}
+                    </label>
+                {% endfor %}
+
+            {% endfor %}
+        <input style="position: fixed;right: 260px" type="submit" class="btn btn-primary">
+        <a href="/index/"><input style="position: fixed;right: 205px;" type="submit" class="btn btn-primary" value="取消"></a>
+        </form>
+
+        {% endblock %}
+
+    </div>
+</body>
+</html>
